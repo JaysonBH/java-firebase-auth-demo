@@ -6,17 +6,20 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.ListUsersPage;
 import java.io.FileInputStream;
 
 import java.io.IOException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DualFireBaseAuthController {
-  private final String SA_CLOUD_SCE_0 = "/usr/local/google/home/jaysonbh/.keys/jaysonbh-cloud-sce-0-973550f257a9.json";
-  private final String SA_CLOUD_SCE_1 = "/usr/local/google/home/jaysonbh/.keys/jaysonbh-cloud-sce-1-e2eb19c19331.json";
+  private final String SA_CLOUD_SCE_0 = "PATH/TO-KEY-1.json";
+  private final String SA_CLOUD_SCE_1 = "PATH/TO-KEY-1.json";
 
   FirebaseApp optionalApp0;
   FirebaseApp optionalApp1;
@@ -47,6 +50,51 @@ public class DualFireBaseAuthController {
     printAllFirebaseAuthUsers(optionalApp1, optionalApp1.getName());
 
     return "Hello, World!";
+  }
+
+  @PostMapping("/vToken")
+  public String vToken(@RequestParam String token) throws FirebaseAuthException {
+    // optionalApp0
+    FirebaseToken firebaseToken = null;
+
+    try {
+      firebaseToken = FirebaseAuth.getInstance(optionalApp0).verifyIdToken(token);
+    }
+    catch (Error error) {
+      System.err.println("Error Verifying token! ");
+      System.err.println("Received Error: " + error);
+    }
+
+    if (firebaseToken != null) {
+      String userEmail = firebaseToken.getEmail();
+      System.out.println("User Email from Token: " + userEmail);
+
+      return "Token Verified Successfully as user: " + userEmail + "\n";
+    }
+
+    return "checked token";
+  }
+
+  @PostMapping("/vToken1")
+  public String vToken1(@RequestParam String token) throws FirebaseAuthException {
+    // optionalApp1
+    FirebaseToken firebaseToken1 = FirebaseAuth.getInstance(optionalApp1).verifyIdToken(token);
+    try {
+      firebaseToken1 = FirebaseAuth.getInstance(optionalApp1).verifyIdToken(token);
+    }
+    catch (Error error) {
+      System.err.println("Error Verifying token! ");
+      System.err.println("Received Error: " + error);
+    }
+    if (firebaseToken1 != null){
+      String userEmail = firebaseToken1.getEmail();
+      System.out.println("User Email from Token: " + userEmail);
+
+      return "Token Verified Successfully as user: " + userEmail + "\n";
+
+    }
+
+    return "checked token";
   }
 
   public void printAllFirebaseAuthUsers(FirebaseApp fbApp, String appName) throws FirebaseAuthException {
