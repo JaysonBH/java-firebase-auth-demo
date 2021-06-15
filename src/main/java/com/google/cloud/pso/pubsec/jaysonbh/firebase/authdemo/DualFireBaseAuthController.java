@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DualFireBaseAuthController {
   private final String SA_CLOUD_SCE_0 = "PATH/TO-KEY-1.json";
-  private final String SA_CLOUD_SCE_1 = "PATH/TO-KEY-1.json";
+  private final String SECONDARY_PROJECT_ID="PROJECT-2-NAME";
 
   FirebaseApp optionalApp0;
   FirebaseApp optionalApp1;
@@ -27,13 +27,14 @@ public class DualFireBaseAuthController {
   //INITIALIZE TWO SEPARATE FIREBASE/IDENTITY PLATFORM APPS
   public DualFireBaseAuthController() throws IOException {
     FileInputStream serviceAccount0 = new FileInputStream(SA_CLOUD_SCE_0);
-    FileInputStream serviceAccount1 = new FileInputStream(SA_CLOUD_SCE_1);
+    FileInputStream serviceAccount1 = new FileInputStream(SA_CLOUD_SCE_0);
 
     FirebaseOptions firebaseAppOptions0 = FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount0))
         .build();
 
     FirebaseOptions firebaseAppOptions1 = FirebaseOptions.builder()
+        .setProjectId(SECONDARY_PROJECT_ID)
         .setCredentials(GoogleCredentials.fromStream(serviceAccount1))
         .build();
 
