@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DualFireBaseAuthController {
-  private final String SA_CLOUD_SCE_0 = "/usr/local/google/home/jaysonbh/.keys/jaysonbh-cloud-sce-0-973550f257a9.json";
-  private final String SA_CLOUD_SCE_1 = "/usr/local/google/home/jaysonbh/.keys/jaysonbh-cloud-sce-1-e2eb19c19331.json";
+  private final String SA_CLOUD_SCE_0 = "PATH/TO-KEY-1.json";
+  private final String SA_CLOUD_SCE_1 = "PATH/TO-KEY-1.json";
 
   FirebaseApp optionalApp0;
   FirebaseApp optionalApp1;
